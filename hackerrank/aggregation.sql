@@ -100,3 +100,68 @@ CASE
 END
 FROM new_station
 LIMIT 1;
+
+
+-- Weather Observation Station
+-- LAT_N is the northern latitude and LONG_W is the western longitude.
+CREATE TABLE city (
+    ID INT,
+    NAME VARCHAR2(17),
+    COUNTRYCODE VARCHAR2(3),
+    DISTRICT INT,
+    POPULATION INT
+);
+
+-- Revising Aggregations - The Sum Function
+-- Query the total population of all cities in CITY where District is California.
+SELECT SUM(population) FROM city WHERE DISTRICT = 'California';
+
+-- Revising Aggregations - Averages
+-- Query the average population of all cities in CITY where District is California.
+SELECT AVG(population) FROM city WHERE DISTRICT = 'California';
+
+-- Revising Aggregations - The Count Function
+-- Query a count of the number of cities in CITY having a Population larger than 100,000.
+SELECT COUNT(*) FROM city WHERE population >= 100000;
+
+-- Average Population
+-- Query the average population for all cities in CITY, rounded down to the nearest integer.
+SELECT CEIL(AVG(population)) FROM city;
+
+-- Japan Population
+-- Query the sum of the populations for all Japanese cities in CITY. The COUNTRYCODE for Japan is JPN.
+SELECT SUM(population) FROM city WHERE COUNTRYCODE = 'JPN';
+
+-- Population Density Difference
+-- Query the difference between the maximum and minimum populations in CITY.
+SELECT MAX(population)- MIN(population) FROM city;
+
+-- The Blunder
+-- Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her 
+-- keyboard's 0 key was broken until after completing the calculation. She wants your help finding the difference between her 
+-- miscalculation (using salaries with any zeros removed), and the actual average salary.
+-- Write a query calculating the amount of error (i.e.: actual - miscalculated average monthly salaries), and round it up to the next integer.
+CREATE TABLE employees (
+    id INT,
+    name VARCHAR(21),
+    salary INT
+);
+
+SELECT CEIL(AVG(salary) - AVG(REPLACE(salary, 0,''))) FROM employees;
+
+
+-- We define an employee's total earnings to be their monthly  worked, and the maximum total earnings to be the maximum total earnings 
+-- for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number 
+-- of employees who have maximum total earnings. Then print these values as  space-separated integers.
+CREATE TABLE employees {
+    employee_id INT,
+    name VARCHAR(21),
+    months INT,
+    salary INT
+}
+-- employee_id is an employee's ID number, name is their name
+-- months is the total number of months they've been working for the company
+-- salary is the their monthly salary.
+SELECT months * salary AS earns, COUNT(*) FROM Employee
+WHERE (months * salary) = (SELECT MAX(months * salary) FROM Employee)
+GROUP BY earns;
